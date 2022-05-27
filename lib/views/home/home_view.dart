@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
@@ -40,7 +39,11 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     Future.delayed(
-        const Duration(seconds: 2), () => init(tabsList[selectedIndex]));
+      const Duration(seconds: 2),
+      () => init(
+        tabsList[selectedIndex],
+      ),
+    );
     super.initState();
   }
 
@@ -70,21 +73,21 @@ class _HomeViewState extends State<HomeView> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NewsView(
-                                    handle: _allFunction.newsList[0]
-                                        ["twitter_account"],
-                                    body: _allFunction.newsList[0]["summary"],
-                                    topic: _allFunction.newsList[0]["topic"],
-                                    title: _allFunction.newsList[0]["title"],
-                                    image: _allFunction
-                                        .newsList[random.nextInt(10)]["media"],
-                                    time: timeago.format(DateTime.parse(
-                                        _allFunction.newsList[0]
-                                            ["published_date"])),
-                                    rights: _allFunction.newsList[0]["rights"],
-                                  )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewsView(
+                            handle: _allFunction.newsList[0]["twitter_account"],
+                            body: _allFunction.newsList[0]["summary"],
+                            topic: _allFunction.newsList[0]["topic"],
+                            title: _allFunction.newsList[0]["title"],
+                            image: _allFunction.newsList[random.nextInt(10)]
+                                ["media"],
+                            time: timeago.format(DateTime.parse(
+                                _allFunction.newsList[0]["published_date"])),
+                            rights: _allFunction.newsList[0]["rights"],
+                          ),
+                        ),
+                      );
                     },
                     child: _allFunction.newsList.isEmpty
                         ? const FirstNewsSkeleton()

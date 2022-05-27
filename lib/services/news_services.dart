@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class NewsService {
   final String hostKey = "free-news.p.rapidapi.com";
@@ -7,6 +8,7 @@ class NewsService {
   final String host = "X-RapidAPI-Host";
   final String api = "X-RapidAPI-Key";
   final baseURL = "https://free-news.p.rapidapi.com";
+  final String dateToday = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
   Future<List<Map<String, dynamic>>> getNewsByKeyword({
     required String q,
@@ -15,6 +17,32 @@ class NewsService {
       http.Response response = await http.get(
         Uri.parse(
           "$baseURL/v1/search?q=$q",
+        ),
+        headers: {
+          host: hostKey,
+          api: apiKey,
+        },
+      );
+
+      final data = jsonDecode(response.body)["articles"];
+      // print(data);
+      final List<Map<String, dynamic>> newsList =
+          List<Map<String, dynamic>>.from(
+        data.map((e) => e),
+      );
+      return newsList;
+    } catch (e) {
+      // ignore: avoid_print
+      print("Error is $e");
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getTrendingNews() async {
+    try {
+      http.Response response = await http.get(
+        Uri.parse(
+          '$baseURL/v1/search?q="$dateToday"&lang=en',
         ),
         headers: {
           host: hostKey,

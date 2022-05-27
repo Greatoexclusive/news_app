@@ -6,6 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AllFunction {
   List<Map<String, dynamic>> newsList = [];
+  List<Map<String, dynamic>> searchNewsList = [];
+
+  List<Map<String, dynamic>> trendingList = [];
   List<Map<String, dynamic>> bookmarkList = [];
 
   static final NewsService _newsService = NewsService();
@@ -16,9 +19,17 @@ class AllFunction {
 
   /// gets data info for every three hours from the current time
   getNews(q) async {
-    isLoading = true;
-    newsList = await _newsService.getNewsByKeyword(q: q);
-    isLoading = false;
+    newsList =
+        await _newsService.getNewsByKeyword(q: q == null ? "Entertainment" : q);
+  }
+
+  getSearchNews(q) async {
+    searchNewsList =
+        await _newsService.getNewsByKeyword(q: q == null ? "Entertainment" : q);
+  }
+
+  getTrendingAndLatest() async {
+    trendingList = await _newsService.getTrendingNews();
   }
 
   addBookmark(Map<String, dynamic> item) {
