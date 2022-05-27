@@ -6,7 +6,7 @@ import 'package:news_app/utils/text.dart';
 import 'package:news_app/widgets/healine_skeleton.dart';
 import 'package:news_app/widgets/healine_widget.dart';
 import 'package:news_app/views/news/news_view.dart';
-import 'package:news_app/views/search/search.dart';
+import 'package:news_app/views/search/searchbar.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -81,7 +81,7 @@ class _SearchViewState extends State<SearchView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Search(
+                            builder: (context) => SearchBar(
                                   text: widget.q == null ? "" : widget.q!,
                                 )));
                   },
@@ -127,98 +127,108 @@ class _SearchViewState extends State<SearchView> {
               child: Container(
                   padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
                   color: kPrimaryColor,
-                  child: GestureDetector(
-                    onTap: () => print(_allFunction.trendingList),
-                    child: AppText.headingMeduim(widget.q == null
-                        ? "Trending & Latest on myNEWZ"
-                        : 'Search result for "${widget.q!}"'),
-                  ))),
+                  child: AppText.headingMeduim(widget.q == null
+                      ? "Trending & Latest on myNEWZ"
+                      : 'Search result for "${widget.q!}"'))),
           SliverToBoxAdapter(
-              child: Column(children: [
-            ...List.generate(
-              widget.q == null ? _allFunction.trendingList.length : 5,
-              (index) => widget.q != null
-                  ? GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NewsView(
-                                      handle: _allFunction.searchNewsList[index]
-                                          ["twitter_account"],
-                                      body: _allFunction.searchNewsList[index]
-                                          ["summary"],
-                                      time: timeago.format(DateTime.parse(
-                                          _allFunction.trendingList[index]
-                                              ["published_date"])),
-                                      rights: _allFunction.searchNewsList[index]
-                                          ["rights"],
-                                      topic: _allFunction.searchNewsList[index]
-                                          ["topic"],
-                                      title: _allFunction.searchNewsList[index]
-                                          ["title"],
-                                      image: _allFunction.searchNewsList[index]
-                                          ["media"],
-                                    )));
-                      },
-                      child: _allFunction.trendingList.isEmpty
-                          ? const HeadlineSkeletonCard()
-                          : HeadlineCard(
-                              handle: _allFunction.searchNewsList[index]
-                                  ["twitter_account"] ??= "",
-                              body: _allFunction.trendingList[index]["summary"],
-                              time: timeago.format(DateTime.parse(_allFunction
-                                  .trendingList[index]["published_date"])),
-                              rights: _allFunction.searchNewsList[index]
-                                  ["rights"],
-                              topic: _allFunction.searchNewsList[index]
-                                  ["topic"],
-                              title: _allFunction.searchNewsList[index]
-                                  ["title"],
-                              image: _allFunction.searchNewsList[index]
-                                  ["media"],
-                            ),
-                    )
-                  : GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NewsView(
-                                      handle: _allFunction.trendingList[index]
-                                          ["twitter_account"],
-                                      body: _allFunction.trendingList[index]
-                                          ["summary"],
-                                      time: timeago.format(DateTime.parse(
-                                          _allFunction.trendingList[index]
-                                              ["published_date"])),
-                                      rights: _allFunction.trendingList[index]
-                                          ["rights"],
-                                      topic: _allFunction.trendingList[index]
-                                          ["topic"],
-                                      title: _allFunction.trendingList[index]
-                                          ["title"],
-                                      image: _allFunction.trendingList[index]
-                                          ["media"],
-                                    )));
-                      },
-                      child: _allFunction.trendingList.isEmpty
-                          ? const HeadlineSkeletonCard()
-                          : HeadlineCard(
-                              handle: _allFunction.trendingList[index]
-                                  ["twitter_account"] ??= "",
-                              body: _allFunction.trendingList[index]["summary"],
-                              time: timeago.format(DateTime.parse(_allFunction
-                                  .trendingList[index]["published_date"])),
-                              rights: _allFunction.trendingList[index]
-                                  ["rights"],
-                              topic: _allFunction.trendingList[index]["topic"],
-                              title: _allFunction.trendingList[index]["title"],
-                              image: _allFunction.trendingList[index]["media"],
-                            ),
-                    ),
-            )
-          ]))
+            child: Column(children: [
+              ...List.generate(
+                widget.q == null
+                    ? _allFunction.trendingList.isNotEmpty
+                        ? _allFunction.trendingList.length
+                        : 5
+                    : _allFunction.searchNewsList.isNotEmpty
+                        ? _allFunction.searchNewsList.length
+                        : 5,
+                (index) => widget.q != null
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewsView(
+                                        handle:
+                                            _allFunction.searchNewsList[index]
+                                                ["twitter_account"],
+                                        body: _allFunction.searchNewsList[index]
+                                            ["summary"],
+                                        time: timeago.format(DateTime.parse(
+                                            _allFunction.trendingList[index]
+                                                ["published_date"])),
+                                        rights: _allFunction
+                                            .searchNewsList[index]["rights"],
+                                        topic: _allFunction
+                                            .searchNewsList[index]["topic"],
+                                        title: _allFunction
+                                            .searchNewsList[index]["title"],
+                                        image: _allFunction
+                                            .searchNewsList[index]["media"],
+                                      )));
+                        },
+                        child: _allFunction.trendingList.isEmpty
+                            ? const HeadlineSkeletonCard()
+                            : HeadlineCard(
+                                handle: _allFunction.searchNewsList[index]
+                                    ["twitter_account"] ??= "",
+                                body: _allFunction.trendingList[index]
+                                    ["summary"],
+                                time: timeago.format(DateTime.parse(_allFunction
+                                    .trendingList[index]["published_date"])),
+                                rights: _allFunction.searchNewsList[index]
+                                    ["rights"],
+                                topic: _allFunction.searchNewsList[index]
+                                    ["topic"],
+                                title: _allFunction.searchNewsList[index]
+                                    ["title"],
+                                image: _allFunction.searchNewsList[index]
+                                    ["media"],
+                              ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewsView(
+                                        handle: _allFunction.trendingList[index]
+                                            ["twitter_account"],
+                                        body: _allFunction.trendingList[index]
+                                            ["summary"],
+                                        time: timeago.format(DateTime.parse(
+                                            _allFunction.trendingList[index]
+                                                ["published_date"])),
+                                        rights: _allFunction.trendingList[index]
+                                            ["rights"],
+                                        topic: _allFunction.trendingList[index]
+                                            ["topic"],
+                                        title: _allFunction.trendingList[index]
+                                            ["title"],
+                                        image: _allFunction.trendingList[index]
+                                            ["media"],
+                                      )));
+                        },
+                        child: _allFunction.trendingList.isEmpty
+                            ? const HeadlineSkeletonCard()
+                            : HeadlineCard(
+                                handle: _allFunction.trendingList[index]
+                                    ["twitter_account"] ??= "",
+                                body: _allFunction.trendingList[index]
+                                    ["summary"],
+                                time: timeago.format(DateTime.parse(_allFunction
+                                    .trendingList[index]["published_date"])),
+                                rights: _allFunction.trendingList[index]
+                                    ["rights"],
+                                topic: _allFunction.trendingList[index]
+                                    ["topic"],
+                                title: _allFunction.trendingList[index]
+                                    ["title"],
+                                image: _allFunction.trendingList[index]
+                                    ["media"],
+                              ),
+                      ),
+              )
+            ]),
+          )
         ],
       ),
       backgroundColor: kPrimaryColor,

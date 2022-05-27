@@ -31,10 +31,9 @@ class _HomeViewState extends State<Home> {
         body: PageView(
           onPageChanged: onPageChange,
           controller: _pageController,
-          children: const [
-            HomeView(),
-            SearchView(),
-            BookmarkView(),
+          children: [
+            const HomeView(),
+            const SearchView(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -51,17 +50,6 @@ class _HomeViewState extends State<Home> {
                 backgroundColor: kPrimaryColor,
                 icon: Icon(
                   Icons.search,
-                  size: 25,
-                ),
-                label: ""),
-            BottomNavigationBarItem(
-                backgroundColor: kPrimaryColor,
-                icon: Icon(
-                  Icons.bookmark_border_outlined,
-                  size: 25,
-                ),
-                activeIcon: Icon(
-                  Icons.bookmark,
                   size: 25,
                 ),
                 label: ""),

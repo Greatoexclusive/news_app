@@ -14,13 +14,12 @@ class FirstNewsSkeleton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Stack(
           children: [
-            SizedBox(
+            Container(
               width: double.infinity,
               height: 400,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: const Skeleton(),
-              ),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+              child: const Skeleton(),
             ),
             const Positioned(
               top: 30,

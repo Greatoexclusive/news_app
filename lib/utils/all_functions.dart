@@ -19,13 +19,12 @@ class AllFunction {
 
   /// gets data info for every three hours from the current time
   getNews(q) async {
-    newsList =
-        await _newsService.getNewsByKeyword(q: q == null ? "Entertainment" : q);
+    newsList = await _newsService.getNewsByKeyword(q: q ?? "Entertainment");
   }
 
   getSearchNews(q) async {
     searchNewsList =
-        await _newsService.getNewsByKeyword(q: q == null ? "Entertainment" : q);
+        await _newsService.getNewsByKeyword(q: q ?? "Entertainment");
   }
 
   getTrendingAndLatest() async {
@@ -34,24 +33,7 @@ class AllFunction {
 
   addBookmark(Map<String, dynamic> item) {
     bookmarkList.add(item);
-    saveBookmarkLocally();
-  }
-
-  saveBookmarkLocally() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
-
-    await _sharedPreferences.setString(
-      StorageKeys.bookmarks,
-      jsonEncode(bookmarkList),
-    );
-  }
-
-  getBookmarkLocally() async {
-    // _sharedPreferences = await SharedPreferences.getInstance();
-
-    bookmarkList =
-        jsonDecode(_sharedPreferences.getString(StorageKeys.bookmarks) ?? '[]')
-            .map<Map<String, dynamic>>((e) => e as Map<String, dynamic>)
-            .toList();
+    print(bookmarkList);
+    print(bookmarkList.length);
   }
 }

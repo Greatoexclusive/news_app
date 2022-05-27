@@ -5,15 +5,15 @@ import 'package:news_app/views/search/search_view.dart';
 import 'package:news_app/widgets/healine_widget.dart';
 import 'package:news_app/views/news/news_view.dart';
 
-class Search extends StatefulWidget {
-  Search({Key? key, this.text}) : super(key: key);
+class SearchBar extends StatefulWidget {
+  SearchBar({Key? key, this.text}) : super(key: key);
 
   final String? text;
   @override
-  State<Search> createState() => _SearchState();
+  State<SearchBar> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends State<SearchBar> {
   TextEditingController _controller = TextEditingController();
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _SearchState extends State<Search> {
                             color: Colors.white,
                             size: 20,
                           )),
-                      hintText: "Search",
+                      hintText: "SearchBar",
                       hintStyle: const TextStyle(
                         fontSize: 15,
                         // fontWeight: FontWeight.w400,

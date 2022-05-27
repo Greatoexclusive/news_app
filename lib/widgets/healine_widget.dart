@@ -14,6 +14,7 @@ class HeadlineCard extends StatelessWidget {
     required this.rights,
     required this.body,
     required this.handle,
+    this.onPressed,
   }) : super(key: key);
 
   final String title;
@@ -22,6 +23,7 @@ class HeadlineCard extends StatelessWidget {
   final String time;
   final String rights;
   final String body;
+  final Function()? onPressed;
 
   final String handle;
 
@@ -78,19 +80,7 @@ class HeadlineCard extends StatelessWidget {
                 ],
               ),
               IconButton(
-                onPressed: () {
-                  _allFunction.addBookmark({
-                    "title": title,
-                    "topic": topic,
-                    "image": image,
-                    "time": time,
-                    "rights": rights,
-                    "body": body,
-                    "handle": handle,
-                  });
-                  print(_allFunction.bookmarkList);
-                  print(_allFunction.bookmarkList.length);
-                },
+                onPressed: onPressed,
                 icon: Icon(Icons.bookmark_add_outlined),
                 color: kSecondaryColor,
               )

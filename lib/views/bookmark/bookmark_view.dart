@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
-import 'package:news_app/views/home/components/first_news_card.dart';
 import 'package:news_app/widgets/healine_widget.dart';
-import 'package:news_app/views/home/components/tabs.dart';
 import 'package:news_app/views/news/news_view.dart';
 import 'package:news_app/widgets/custom_appbar.dart';
 
 class BookmarkView extends StatefulWidget {
-  const BookmarkView({Key? key}) : super(key: key);
+  BookmarkView({Key? key, required this.bookmarkList}) : super(key: key);
+
+  List<Map<String, dynamic>> bookmarkList;
 
   @override
   State<BookmarkView> createState() => _BookmarkViewState();
@@ -20,10 +20,6 @@ AllFunction _allFunction = AllFunction();
 class _BookmarkViewState extends State<BookmarkView> {
   @override
   void initState() {
-    _allFunction.getBookmarkLocally();
-    setState(() {
-      print(_allFunction.bookmarkList);
-    });
     super.initState();
   }
 
@@ -33,55 +29,76 @@ class _BookmarkViewState extends State<BookmarkView> {
         child: Scaffold(
       body: Column(
         children: [
-          CustomAppBar(
-            isDisabled: false,
-            title: "Bookmark",
-            icon: Icons.delete_outline,
+          GestureDetector(
             onTap: () {
-              setState(() {});
+              print(_allFunction.bookmarkList);
             },
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                ...List.generate(
-                  _allFunction.bookmarkList.length,
-                  (index) => GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NewsView(
-                                    handle: _allFunction.bookmarkList[index]
-                                        ["handle"],
-                                    body: _allFunction.bookmarkList[index]
-                                        ["body"],
-                                    time: _allFunction.bookmarkList[index]
-                                        ["time"],
-                                    title: _allFunction.bookmarkList[index]
-                                        ["title"],
-                                    topic: _allFunction.bookmarkList[index]
-                                        ["topic"],
-                                    rights: _allFunction.bookmarkList[index]
-                                        ["rights"],
-                                    image: _allFunction.bookmarkList[index]
-                                        ["image"],
-                                  )));
-                    },
-                    child: HeadlineCard(
-                      handle: _allFunction.bookmarkList[index]["handle"],
-                      body: _allFunction.bookmarkList[index]["body"],
-                      time: _allFunction.bookmarkList[index]["time"],
-                      title: _allFunction.bookmarkList[index]["title"],
-                      topic: _allFunction.bookmarkList[index]["topic"],
-                      rights: _allFunction.bookmarkList[index]["rights"],
-                      image: _allFunction.bookmarkList[index]["image"],
-                    ),
-                  ),
-                ),
-              ],
+            child: CustomAppBar(
+              enableArrowBack: true,
+              isDisabled: false,
+              title: "Bookmark",
+              icon: Icons.delete_outline,
+              onTap: () {
+                setState(() {});
+              },
             ),
           ),
+          _allFunction.bookmarkList.isEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: (MediaQuery.of(context).size.height / 2) - 70,
+                    ),
+                    Center(
+                      child: AppText.heading(
+                        "No bookmarks",
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Expanded(
+                  child: ListView(
+                    children: [
+                      ...List.generate(
+                        widget.bookmarkList.length,
+                        (index) => GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NewsView(
+                                          handle: widget.bookmarkList[index]
+                                              ["handle"],
+                                          body: widget.bookmarkList[index]
+                                              ["body"],
+                                          time: widget.bookmarkList[index]
+                                              ["time"],
+                                          title: widget.bookmarkList[index]
+                                              ["title"],
+                                          topic: widget.bookmarkList[index]
+                                              ["topic"],
+                                          rights: widget.bookmarkList[index]
+                                              ["rights"],
+                                          image: widget.bookmarkList[index]
+                                              ["image"],
+                                        )));
+                          },
+                          child: HeadlineCard(
+                            handle: widget.bookmarkList[index]["handle"],
+                            body: widget.bookmarkList[index]["body"],
+                            time: widget.bookmarkList[index]["time"],
+                            title: widget.bookmarkList[index]["title"],
+                            topic: widget.bookmarkList[index]["topic"],
+                            rights: widget.bookmarkList[index]["rights"],
+                            image: widget.bookmarkList[index]["image"],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
         ],
       ),
       backgroundColor: kPrimaryColor,
