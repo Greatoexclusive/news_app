@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/utils/color.dart';
-
 import '../../utils/text.dart';
 
 class AppButton extends StatelessWidget {
@@ -38,7 +37,7 @@ class AppButton extends StatelessWidget {
         clipBehavior: Clip.none,
         height: height,
         width: width,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

@@ -34,6 +34,7 @@ class _HomeViewState extends State<Home> {
           children: [
             const HomeView(),
             const SearchView(),
+            // BookmarkView(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(

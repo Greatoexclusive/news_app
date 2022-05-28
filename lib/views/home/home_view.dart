@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/imageKeys.dart';
 import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
@@ -26,7 +27,8 @@ class _HomeViewState extends State<HomeView> {
 
   var selectedIndex = 0;
   var random = Random();
-
+  ScrollController scrollController = ScrollController();
+  bool isBottom = false;
   late int randomNumber = random.nextInt(10);
 
   List<String> tabsList = [
@@ -37,10 +39,25 @@ class _HomeViewState extends State<HomeView> {
     "Travel",
     "Music",
     "Public",
+    "Tech"
   ];
 
   @override
   void initState() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        print("i want more");
+        Future.delayed(
+          const Duration(seconds: 2),
+          () => initGetMore(
+            tabsList[selectedIndex],
+          ),
+        );
+        setState(() {});
+        print("i have more");
+      }
+    });
     Future.delayed(
       const Duration(seconds: 2),
       () => init(
@@ -55,6 +72,13 @@ class _HomeViewState extends State<HomeView> {
     setState(() {});
     await _allFunction.getNews(q);
     setState(() {});
+  }
+
+  initGetMore(q) async {
+    setState(() {
+      _allFunction.getMoreNews(tabsList[selectedIndex]);
+      setState(() {});
+    });
   }
 
   @override
@@ -83,6 +107,7 @@ class _HomeViewState extends State<HomeView> {
             ),
             Expanded(
               child: CustomScrollView(
+                controller: scrollController,
                 slivers: [
                   SliverToBoxAdapter(
                     child: GestureDetector(
@@ -100,7 +125,12 @@ class _HomeViewState extends State<HomeView> {
                               title: _allFunction.newsList[randomNumber]
                                   ["title"],
                               image: _allFunction.newsList[randomNumber]
-                                  ["media"],
+                                          ["media"] ==
+                                      ""
+                                  ? ImageKeys.noImage
+                                  : _allFunction.newsList[randomNumber]
+                                          ["media"] ??
+                                      ImageKeys.noImage,
                               time: timeago.format(DateTime.parse(_allFunction
                                   .newsList[randomNumber]["published_date"])),
                               rights: _allFunction.newsList[randomNumber]
@@ -117,7 +147,12 @@ class _HomeViewState extends State<HomeView> {
                               title: _allFunction.newsList[randomNumber]
                                   ["title"],
                               image: _allFunction.newsList[randomNumber]
-                                  ["media"],
+                                          ["media"] ==
+                                      ""
+                                  ? ImageKeys.noImage
+                                  : _allFunction.newsList[randomNumber]
+                                          ["media"] ??
+                                      ImageKeys.noImage,
                               time: timeago.format(DateTime.parse(_allFunction
                                   .newsList[randomNumber]["published_date"])),
                               rights: _allFunction.newsList[randomNumber]
@@ -190,7 +225,12 @@ class _HomeViewState extends State<HomeView> {
                                             title: _allFunction.newsList[index]
                                                 ["title"],
                                             image: _allFunction.newsList[index]
-                                                ["media"],
+                                                        ["media"] ==
+                                                    ""
+                                                ? ImageKeys.noImage
+                                                : _allFunction.newsList[index]
+                                                        ["media"] ??
+                                                    ImageKeys.noImage,
                                           )));
                             },
                             child: _allFunction.newsList.isEmpty
@@ -203,20 +243,22 @@ class _HomeViewState extends State<HomeView> {
                                         duration: const Duration(seconds: 1),
                                         content: AppText.headingMeduim(
                                             "Bookmarked!"),
-                                        // action: SnackBarAction(
-                                        //   label: "Undo",
-                                        //   onPressed: () {},
-                                        // ),
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snack);
+                                      _allFunction.newsList[index]["isTapped"];
                                       _allFunction.addBookmark({
                                         "title": _allFunction.newsList[index]
                                             ["title"],
                                         "topic": _allFunction.newsList[index]
                                             ["topic"],
                                         "image": _allFunction.newsList[index]
-                                            ["media"],
+                                                    ["media"] ==
+                                                ""
+                                            ? ImageKeys.noImage
+                                            : _allFunction.newsList[index]
+                                                    ["media"] ??
+                                                ImageKeys.noImage,
                                         "time": timeago.format(DateTime.parse(
                                             _allFunction.newsList[index]
                                                 ["published_date"])),
@@ -231,21 +273,49 @@ class _HomeViewState extends State<HomeView> {
                                     handle: _allFunction.newsList[index]
                                         ["twitter_account"] ??= "",
                                     body: _allFunction.newsList[index]
-                                        ["summary"],
+                                        ["summary"] ??= "",
                                     time: timeago.format(DateTime.parse(
                                         _allFunction.newsList[index]
                                             ["published_date"])),
                                     rights: _allFunction.newsList[index]
-                                        ["rights"],
+                                        ["rights"] ??= "",
                                     topic: _allFunction.newsList[index]
                                         ["topic"],
                                     title: _allFunction.newsList[index]
                                         ["title"],
                                     image: _allFunction.newsList[index]
-                                        ["media"],
+                                                ["media"] ==
+                                            ""
+                                        ? ImageKeys.noImage
+                                        : _allFunction.newsList[index]
+                                                ["media"] ??
+                                            ImageKeys.noImage,
                                   ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppText.headingMeduim(
+                          "Getting more feeds",
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: kSecondaryColor,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   )

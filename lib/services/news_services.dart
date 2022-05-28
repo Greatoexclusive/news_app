@@ -12,11 +12,12 @@ class NewsService {
 
   Future<List<Map<String, dynamic>>> getNewsByKeyword({
     required String q,
+    required int page,
   }) async {
     try {
       http.Response response = await http.get(
         Uri.parse(
-          "$baseURL/v1/search?q=$q",
+          "$baseURL/v1/search?q=$q&page=$page",
         ),
         headers: {
           host: hostKey,

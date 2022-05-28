@@ -29,21 +29,76 @@ class _BookmarkViewState extends State<BookmarkView> {
         child: Scaffold(
       body: Column(
         children: [
-          GestureDetector(
+          CustomAppBar(
+            enableArrowBack: true,
+            isDisabled: false,
+            title: "Bookmarks",
+            icon: Icons.delete_outline,
             onTap: () {
-              print(_allFunction.bookmarkList);
+              if (widget.bookmarkList.isEmpty) {
+                final snack = SnackBar(
+                  backgroundColor: kSecondaryColor,
+                  elevation: 5,
+                  duration: const Duration(seconds: 4),
+                  content: AppText.headingMeduim(
+                      "You currently do not have any bookmarks!"),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snack);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: kPrimaryColor,
+                    title: const Center(
+                        child: Icon(
+                      Icons.warning,
+                      size: 50,
+                      color: kSecondaryColor,
+                    )),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: AppText.headingMeduim("Clear bookmark?"),
+                        )
+                      ],
+                    ),
+                    actions: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: kSecondaryColor, // Background color
+                            ),
+                            autofocus: true,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('No'),
+                          ),
+                          // Spacer(),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: kSecondaryColor, // Background color
+                            ),
+                            autofocus: true,
+                            onPressed: () {
+                              widget.bookmarkList.clear();
+                              setState(() {});
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }
             },
-            child: CustomAppBar(
-              enableArrowBack: true,
-              isDisabled: false,
-              title: "Bookmark",
-              icon: Icons.delete_outline,
-              onTap: () {
-                setState(() {});
-              },
-            ),
           ),
-          _allFunction.bookmarkList.isEmpty
+          widget.bookmarkList.isEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -86,6 +141,27 @@ class _BookmarkViewState extends State<BookmarkView> {
                                         )));
                           },
                           child: HeadlineCard(
+                            onPressed: () {
+                              Map<String, dynamic> removedItem =
+                                  widget.bookmarkList[index];
+                              widget.bookmarkList
+                                  .remove(widget.bookmarkList[index]);
+                              setState(() {});
+                              final snack = SnackBar(
+                                backgroundColor: kSecondaryColor,
+                                elevation: 5,
+                                duration: const Duration(seconds: 4),
+                                content: AppText.headingMeduim("Unbookmarked!"),
+                                action: SnackBarAction(
+                                  label: "Undo",
+                                  onPressed: () {
+                                    widget.bookmarkList.add(removedItem);
+                                    setState(() {});
+                                  },
+                                ),
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snack);
+                            },
                             handle: widget.bookmarkList[index]["handle"],
                             body: widget.bookmarkList[index]["body"],
                             time: widget.bookmarkList[index]["time"],

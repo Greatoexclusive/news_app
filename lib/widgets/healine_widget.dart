@@ -23,11 +23,8 @@ class HeadlineCard extends StatelessWidget {
   final String time;
   final String rights;
   final String body;
-  final Function()? onPressed;
-
   final String handle;
-
-  final AllFunction _allFunction = AllFunction();
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +78,7 @@ class HeadlineCard extends StatelessWidget {
               ),
               IconButton(
                 onPressed: onPressed,
-                icon: Icon(Icons.bookmark_add_outlined),
+                icon: const Icon(Icons.bookmark_add_outlined),
                 color: kSecondaryColor,
               )
             ],
