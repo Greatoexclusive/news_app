@@ -55,7 +55,7 @@ class _HomeViewState extends State<HomeView> {
             _allFunction.newsList.isNotEmpty) {
           print("i want more");
           Future.delayed(
-            const Duration(seconds: 2),
+            const Duration(seconds: 0),
             () => initGetMore(
               tabsList[selectedIndex],
             ),
@@ -284,15 +284,14 @@ class _HomeViewState extends State<HomeView> {
                                             DateTime.parse(
                                                 _allFunction.newsList[index]
                                                     [ApiKeys.time])),
-                                        ApiKeys.time: _allFunction
+                                        ApiKeys.rights: _allFunction
                                             .newsList[index][ApiKeys.rights],
                                         ApiKeys.body: _allFunction
                                             .newsList[index][ApiKeys.body],
-                                        ApiKeys.handle:
-                                            _allFunction.newsList[index]
-                                                    [ApiKeys.handle] ??=
-                                                ApiKeys.emptyString,
+                                        ApiKeys.handle: _allFunction
+                                            .newsList[index][ApiKeys.handle]
                                       });
+                                      // print(_allFunction.newsList[1]["rights"]);
                                     },
                                     handle: _allFunction.newsList[index]
                                             [ApiKeys.handle] ??=

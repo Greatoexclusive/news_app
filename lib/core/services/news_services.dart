@@ -9,6 +9,7 @@ class NewsService {
   final String api = "X-RapidAPI-Key";
   final baseURL = "https://free-news.p.rapidapi.com";
   final String dateToday = DateFormat("yyyy-MM-dd").format(DateTime.now());
+  late int totalPages;
 
   Future<List<Map<String, dynamic>>> getNewsByKeyword({
     required String q,
@@ -17,7 +18,7 @@ class NewsService {
     try {
       http.Response response = await http.get(
         Uri.parse(
-          "$baseURL/v1/search?q=$q&page=$page",
+          "$baseURL/v1/search?q=$q&page=$page&page_size=10",
         ),
         headers: {
           host: hostKey,
@@ -26,6 +27,8 @@ class NewsService {
       );
 
       final data = jsonDecode(response.body)["articles"];
+      totalPages = jsonDecode(response.body)["total_pages"];
+      print(totalPages);
       // print(data);
       final List<Map<String, dynamic>> newsList =
           List<Map<String, dynamic>>.from(

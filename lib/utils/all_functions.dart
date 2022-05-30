@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:news_app/core/services/news_services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AllFunction {
   List<Map<String, dynamic>> newsList = [];
@@ -10,16 +8,13 @@ class AllFunction {
   int page = 1;
 
   static final NewsService _newsService = NewsService();
-  bool isLoading = false;
 
   getNews(q) async {
-    newsList.addAll(await _newsService.getNewsByKeyword(
-        q: q ?? "Entertainment", page: page));
+    newsList.addAll(await _newsService.getNewsByKeyword(q: q, page: page));
   }
 
   getSearchNews(q) async {
-    searchNewsList = await _newsService.getNewsByKeyword(
-        q: q ?? "Entertainment", page: page);
+    searchNewsList = await _newsService.getNewsByKeyword(q: q, page: page);
   }
 
   getTrendingAndLatest() async {
@@ -37,6 +32,9 @@ class AllFunction {
 
   getMoreNews(q) {
     page++;
-    getNews(q);
+    if (page < _newsService.totalPages) {
+      getNews(q);
+      print("$page is less than ${_newsService.totalPages}");
+    }
   }
 }

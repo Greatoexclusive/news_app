@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/utils/all_functions.dart';
+import 'package:news_app/core/constants/apiKeys.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
 import 'package:news_app/widgets/headline_widget.dart';
@@ -14,8 +14,6 @@ class BookmarkView extends StatefulWidget {
   @override
   State<BookmarkView> createState() => _BookmarkViewState();
 }
-
-AllFunction _allFunction = AllFunction();
 
 class _BookmarkViewState extends State<BookmarkView> {
   @override
@@ -125,23 +123,26 @@ class _BookmarkViewState extends State<BookmarkView> {
                                 MaterialPageRoute(
                                     builder: (context) => NewsView(
                                           handle: widget.bookmarkList[index]
-                                              ["handle"],
+                                                  [ApiKeys.handle] ??
+                                              "",
                                           body: widget.bookmarkList[index]
-                                              ["body"],
+                                              [ApiKeys.body],
                                           time: widget.bookmarkList[index]
-                                              ["time"],
+                                              [ApiKeys.time],
                                           title: widget.bookmarkList[index]
-                                              ["title"],
+                                              [ApiKeys.title],
                                           topic: widget.bookmarkList[index]
-                                              ["topic"],
+                                              [ApiKeys.topic],
                                           rights: widget.bookmarkList[index]
-                                              ["rights"],
+                                                  [ApiKeys.rights] ??
+                                              "",
                                           image: widget.bookmarkList[index]
-                                              ["image"],
+                                              [ApiKeys.image],
                                         )));
                           },
                           child: HeadlineCard(
                             onPressed: () {
+                              int removedItemIndex = index;
                               Map<String, dynamic> removedItem =
                                   widget.bookmarkList[index];
                               widget.bookmarkList
@@ -155,20 +156,23 @@ class _BookmarkViewState extends State<BookmarkView> {
                                 action: SnackBarAction(
                                   label: "Undo",
                                   onPressed: () {
-                                    widget.bookmarkList.add(removedItem);
+                                    widget.bookmarkList
+                                        .insert(index, removedItem);
                                     setState(() {});
                                   },
                                 ),
                               );
                               ScaffoldMessenger.of(context).showSnackBar(snack);
                             },
-                            handle: widget.bookmarkList[index]["handle"],
-                            body: widget.bookmarkList[index]["body"],
-                            time: widget.bookmarkList[index]["time"],
-                            title: widget.bookmarkList[index]["title"],
-                            topic: widget.bookmarkList[index]["topic"],
-                            rights: widget.bookmarkList[index]["rights"],
-                            image: widget.bookmarkList[index]["image"],
+                            handle: widget.bookmarkList[index][ApiKeys.handle],
+                            body: widget.bookmarkList[index][ApiKeys.body],
+                            time: widget.bookmarkList[index][ApiKeys.time],
+                            title: widget.bookmarkList[index][ApiKeys.title],
+                            topic: widget.bookmarkList[index][ApiKeys.topic],
+                            rights: widget.bookmarkList[index]
+                                    [ApiKeys.rights] ??
+                                "",
+                            image: widget.bookmarkList[index][ApiKeys.image],
                           ),
                         ),
                       ),
