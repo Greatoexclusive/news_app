@@ -4,8 +4,8 @@ import 'package:news_app/core/constants/imageKeys.dart';
 import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
-import 'package:news_app/widgets/healine_skeleton.dart';
-import 'package:news_app/widgets/healine_widget.dart';
+import 'package:news_app/widgets/headline_skeleton.dart';
+import 'package:news_app/widgets/headline_widget.dart';
 import 'package:news_app/views/news/news_view.dart';
 import 'package:news_app/views/search/searchbar.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -23,17 +23,17 @@ final AllFunction _allFunction = AllFunction();
 class _SearchViewState extends State<SearchView> {
   @override
   void initState() {
-    _allFunction.trendingList = [];
-    _allFunction.searchNewsList = [];
-    Future.delayed(const Duration(seconds: 2), () => init());
+    // _allFunction.trendingList = [];
+    // _allFunction.searchNewsList = [];
+    Future.delayed(const Duration(milliseconds: 200), () => init());
 
     super.initState();
   }
 
   init() async {
-    setState(() {});
-
-    await _allFunction.getTrendingAndLatest();
+    if (_allFunction.trendingList.isEmpty) {
+      await _allFunction.getTrendingAndLatest();
+    }
     if (widget.q != null) await _allFunction.getSearchNews(widget.q);
 
     setState(() {});

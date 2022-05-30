@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
-import 'package:news_app/widgets/healine_widget.dart';
+import 'package:news_app/widgets/headline_widget.dart';
 import 'package:news_app/views/news/news_view.dart';
 import 'package:news_app/widgets/custom_appbar.dart';
 

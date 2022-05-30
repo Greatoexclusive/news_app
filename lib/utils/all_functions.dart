@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/services/news_services.dart';
+import 'package:news_app/core/services/news_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AllFunction {

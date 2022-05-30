@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
 import 'package:news_app/views/search/search_view.dart';
-import 'package:news_app/widgets/healine_widget.dart';
+import 'package:news_app/widgets/headline_widget.dart';
 import 'package:news_app/views/news/news_view.dart';
 
 class SearchBar extends StatefulWidget {
@@ -63,7 +63,7 @@ class _SearchState extends State<SearchBar> {
                             color: Colors.white,
                             size: 20,
                           )),
-                      hintText: "SearchBar",
+                      hintText: "Search",
                       hintStyle: const TextStyle(
                         fontSize: 15,
                         // fontWeight: FontWeight.w400,
