@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/apiKeys.dart';
+import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
 import 'package:news_app/widgets/headline_widget.dart';
@@ -7,9 +8,9 @@ import 'package:news_app/views/news/news_view.dart';
 import 'package:news_app/widgets/custom_appbar.dart';
 
 class BookmarkView extends StatefulWidget {
-  BookmarkView({Key? key, required this.bookmarkList}) : super(key: key);
-
-  List<Map<String, dynamic>> bookmarkList;
+  BookmarkView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<BookmarkView> createState() => _BookmarkViewState();
@@ -28,18 +29,18 @@ class _BookmarkViewState extends State<BookmarkView> {
       body: Column(
         children: [
           CustomAppBar(
-            enableArrowBack: true,
+            enableArrowBack: false,
             isDisabled: false,
-            title: "Bookmarks",
+            title: "Favourites",
             icon: Icons.delete_outline,
             onTap: () {
-              if (widget.bookmarkList.isEmpty) {
+              if (AllFunction.bookmarkList.isEmpty) {
                 final snack = SnackBar(
                   backgroundColor: kSecondaryColor,
                   elevation: 5,
                   duration: const Duration(seconds: 4),
                   content: AppText.headingMeduim(
-                      "You currently do not have any bookmarks!"),
+                      "You currently do not have any favourites!"),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snack);
               } else {
@@ -57,7 +58,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
-                          child: AppText.headingMeduim("Clear bookmark?"),
+                          child: AppText.headingMeduim("Clear favourites?"),
                         )
                       ],
                     ),
@@ -69,7 +70,6 @@ class _BookmarkViewState extends State<BookmarkView> {
                             style: ElevatedButton.styleFrom(
                               primary: kSecondaryColor, // Background color
                             ),
-                            autofocus: true,
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -80,9 +80,8 @@ class _BookmarkViewState extends State<BookmarkView> {
                             style: ElevatedButton.styleFrom(
                               primary: kSecondaryColor, // Background color
                             ),
-                            autofocus: true,
                             onPressed: () {
-                              widget.bookmarkList.clear();
+                              AllFunction.bookmarkList.clear();
                               setState(() {});
                               Navigator.pop(context);
                             },
@@ -96,7 +95,7 @@ class _BookmarkViewState extends State<BookmarkView> {
               }
             },
           ),
-          widget.bookmarkList.isEmpty
+          AllFunction.bookmarkList.isEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -105,7 +104,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                     ),
                     Center(
                       child: AppText.heading(
-                        "No bookmarks",
+                        "No favourites",
                         color: Colors.grey,
                       ),
                     ),
@@ -115,64 +114,48 @@ class _BookmarkViewState extends State<BookmarkView> {
                   child: ListView(
                     children: [
                       ...List.generate(
-                        widget.bookmarkList.length,
+                        AllFunction.bookmarkList.length,
                         (index) => GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NewsView(
-                                          handle: widget.bookmarkList[index]
-                                                  [ApiKeys.handle] ??
-                                              "",
-                                          body: widget.bookmarkList[index]
+                                          bookmarked: true,
+                                          link: AllFunction.bookmarkList[index]
+                                              [ApiKeys.link],
+                                          handle:
+                                              AllFunction.bookmarkList[index]
+                                                  [ApiKeys.handle],
+                                          body: AllFunction.bookmarkList[index]
                                               [ApiKeys.body],
-                                          time: widget.bookmarkList[index]
+                                          time: AllFunction.bookmarkList[index]
                                               [ApiKeys.time],
-                                          title: widget.bookmarkList[index]
+                                          title: AllFunction.bookmarkList[index]
                                               [ApiKeys.title],
-                                          topic: widget.bookmarkList[index]
+                                          topic: AllFunction.bookmarkList[index]
                                               [ApiKeys.topic],
-                                          rights: widget.bookmarkList[index]
-                                                  [ApiKeys.rights] ??
-                                              "",
-                                          image: widget.bookmarkList[index]
+                                          rights:
+                                              AllFunction.bookmarkList[index]
+                                                      [ApiKeys.rights] ??
+                                                  "",
+                                          image: AllFunction.bookmarkList[index]
                                               [ApiKeys.image],
                                         )));
                           },
                           child: HeadlineCard(
-                            onPressed: () {
-                              int removedItemIndex = index;
-                              Map<String, dynamic> removedItem =
-                                  widget.bookmarkList[index];
-                              widget.bookmarkList
-                                  .remove(widget.bookmarkList[index]);
-                              setState(() {});
-                              final snack = SnackBar(
-                                backgroundColor: kSecondaryColor,
-                                elevation: 5,
-                                duration: const Duration(seconds: 4),
-                                content: AppText.headingMeduim("Unbookmarked!"),
-                                action: SnackBarAction(
-                                  label: "Undo",
-                                  onPressed: () {
-                                    widget.bookmarkList
-                                        .insert(index, removedItem);
-                                    setState(() {});
-                                  },
-                                ),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(snack);
-                            },
-                            handle: widget.bookmarkList[index][ApiKeys.handle],
-                            body: widget.bookmarkList[index][ApiKeys.body],
-                            time: widget.bookmarkList[index][ApiKeys.time],
-                            title: widget.bookmarkList[index][ApiKeys.title],
-                            topic: widget.bookmarkList[index][ApiKeys.topic],
-                            rights: widget.bookmarkList[index]
-                                    [ApiKeys.rights] ??
-                                "",
-                            image: widget.bookmarkList[index][ApiKeys.image],
+                            handle: AllFunction.bookmarkList[index]
+                                [ApiKeys.handle],
+                            body: AllFunction.bookmarkList[index][ApiKeys.body],
+                            time: AllFunction.bookmarkList[index][ApiKeys.time],
+                            title: AllFunction.bookmarkList[index]
+                                [ApiKeys.title],
+                            topic: AllFunction.bookmarkList[index]
+                                [ApiKeys.topic],
+                            rights: AllFunction.bookmarkList[index]
+                                [ApiKeys.rights],
+                            image: AllFunction.bookmarkList[index]
+                                [ApiKeys.image],
                           ),
                         ),
                       ),

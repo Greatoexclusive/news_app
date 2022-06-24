@@ -34,26 +34,36 @@ class _HomeViewState extends State<Home> {
           children: [
             const HomeView(),
             const SearchView(),
-            // BookmarkView(),
+            BookmarkView(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                backgroundColor: kPrimaryColor,
-                icon: Icon(
-                  Icons.home,
-                  size: 25,
-                ),
-                label: ""),
+              backgroundColor: kPrimaryColor,
+              icon: Icon(
+                Icons.home,
+                size: 25,
+              ),
+              label: "",
+            ),
             BottomNavigationBarItem(
-                backgroundColor: kPrimaryColor,
-                icon: Icon(
-                  Icons.search,
-                  size: 25,
-                ),
-                label: ""),
+              backgroundColor: kPrimaryColor,
+              icon: Icon(
+                Icons.search,
+                size: 25,
+              ),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: kPrimaryColor,
+              icon: Icon(
+                Icons.favorite,
+                size: 25,
+              ),
+              label: "",
+            ),
           ],
           currentIndex: _selectedPage,
           selectedItemColor: kSecondaryColor,

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/apiKeys.dart';
 import 'package:news_app/core/constants/imageKeys.dart';
 import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
@@ -7,7 +8,7 @@ import 'package:news_app/utils/text.dart';
 import 'package:news_app/widgets/headline_skeleton.dart';
 import 'package:news_app/widgets/headline_widget.dart';
 import 'package:news_app/views/news/news_view.dart';
-import 'package:news_app/views/search/searchbar.dart';
+import 'package:news_app/views/search/components/searchbar.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -148,28 +149,35 @@ class _SearchViewState extends State<SearchView> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NewsView(
+                                          link:
+                                              _allFunction.searchNewsList[index]
+                                                  [ApiKeys.link],
                                           handle:
                                               _allFunction.searchNewsList[index]
-                                                  ["twitter_account"],
-                                          body: _allFunction
-                                              .searchNewsList[index]["summary"],
+                                                  [ApiKeys.handle],
+                                          body:
+                                              _allFunction.searchNewsList[index]
+                                                  [ApiKeys.body],
                                           time: timeago.format(DateTime.parse(
                                               _allFunction.trendingList[index]
-                                                  ["published_date"])),
-                                          rights: _allFunction
-                                              .searchNewsList[index]["rights"],
-                                          topic: _allFunction
-                                              .searchNewsList[index]["topic"],
-                                          title: _allFunction
-                                              .searchNewsList[index]["title"],
+                                                  [ApiKeys.time])),
+                                          rights:
+                                              _allFunction.searchNewsList[index]
+                                                  [ApiKeys.rights],
+                                          topic:
+                                              _allFunction.searchNewsList[index]
+                                                  [ApiKeys.topic],
+                                          title:
+                                              _allFunction.searchNewsList[index]
+                                                  [ApiKeys.title],
                                           image: _allFunction
                                                           .searchNewsList[index]
-                                                      ["media"] ==
-                                                  ""
+                                                      [ApiKeys.image] ==
+                                                  ApiKeys.emptyString
                                               ? ImageKeys.noImage
                                               : _allFunction
                                                           .searchNewsList[index]
-                                                      ["media"] ??
+                                                      [ApiKeys.image] ??
                                                   ImageKeys.noImage,
                                         )));
                           },
@@ -177,24 +185,24 @@ class _SearchViewState extends State<SearchView> {
                               ? const HeadlineSkeletonCard()
                               : HeadlineCard(
                                   handle: _allFunction.searchNewsList[index]
-                                      ["twitter_account"] ??= "",
+                                      [ApiKeys.handle] ??= "",
                                   body: _allFunction.trendingList[index]
-                                      ["summary"],
+                                      [ApiKeys.body],
                                   time: timeago.format(DateTime.parse(
                                       _allFunction.trendingList[index]
-                                          ["published_date"])),
+                                          [ApiKeys.time])),
                                   rights: _allFunction.searchNewsList[index]
-                                      ["rights"],
+                                      [ApiKeys.rights],
                                   topic: _allFunction.searchNewsList[index]
-                                      ["topic"],
+                                      [ApiKeys.topic],
                                   title: _allFunction.searchNewsList[index]
-                                      ["title"],
+                                      [ApiKeys.title],
                                   image: _allFunction.searchNewsList[index]
-                                              ["media"] ==
-                                          ""
+                                              [ApiKeys.image] ==
+                                          ApiKeys.emptyString
                                       ? ImageKeys.noImage
                                       : _allFunction.searchNewsList[index]
-                                              ["media"] ??
+                                              [ApiKeys.image] ??
                                           ImageKeys.noImage,
                                 ),
                         )
@@ -204,28 +212,33 @@ class _SearchViewState extends State<SearchView> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NewsView(
+                                          link: _allFunction.trendingList[index]
+                                              [ApiKeys.link],
                                           handle:
                                               _allFunction.trendingList[index]
-                                                  ["twitter_account"],
+                                                  [ApiKeys.handle],
                                           body: _allFunction.trendingList[index]
-                                              ["summary"],
+                                              [ApiKeys.body],
                                           time: timeago.format(DateTime.parse(
                                               _allFunction.trendingList[index]
-                                                  ["published_date"])),
-                                          rights: _allFunction
-                                              .trendingList[index]["rights"],
-                                          topic: _allFunction
-                                              .trendingList[index]["topic"],
-                                          title: _allFunction
-                                              .trendingList[index]["title"],
+                                                  [ApiKeys.time])),
+                                          rights:
+                                              _allFunction.trendingList[index]
+                                                  [ApiKeys.rights],
+                                          topic:
+                                              _allFunction.trendingList[index]
+                                                  [ApiKeys.topic],
+                                          title:
+                                              _allFunction.trendingList[index]
+                                                  [ApiKeys.title],
                                           image: _allFunction
                                                           .searchNewsList[index]
-                                                      ["media"] ==
-                                                  ""
+                                                      [ApiKeys.image] ==
+                                                  ApiKeys.emptyString
                                               ? ImageKeys.noImage
                                               : _allFunction
                                                           .searchNewsList[index]
-                                                      ["media"] ??
+                                                      [ApiKeys.image] ??
                                                   ImageKeys.noImage,
                                         )));
                           },
@@ -233,24 +246,24 @@ class _SearchViewState extends State<SearchView> {
                               ? const HeadlineSkeletonCard()
                               : HeadlineCard(
                                   handle: _allFunction.trendingList[index]
-                                      ["twitter_account"] ??= "",
+                                      [ApiKeys.handle] ??= "",
                                   body: _allFunction.trendingList[index]
-                                      ["summary"],
+                                      [ApiKeys.body],
                                   time: timeago.format(DateTime.parse(
                                       _allFunction.trendingList[index]
-                                          ["published_date"])),
+                                          [ApiKeys.time])),
                                   rights: _allFunction.trendingList[index]
-                                      ["rights"],
+                                      [ApiKeys.rights],
                                   topic: _allFunction.trendingList[index]
-                                      ["topic"],
+                                      [ApiKeys.topic],
                                   title: _allFunction.trendingList[index]
-                                      ["title"],
+                                      [ApiKeys.title],
                                   image: _allFunction.trendingList[index]
-                                              ["media"] ==
-                                          ""
+                                              [ApiKeys.image] ==
+                                          ApiKeys.emptyString
                                       ? ImageKeys.noImage
                                       : _allFunction.trendingList[index]
-                                              ["media"] ??
+                                              [ApiKeys.image] ??
                                           ImageKeys.noImage,
                                 ),
                         ),

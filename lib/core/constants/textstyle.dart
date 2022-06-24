@@ -1,8 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/utils/color.dart';
 
 TextStyle heading = GoogleFonts.baloo2(
   height: 2,

@@ -4,8 +4,6 @@ import 'package:news_app/core/constants/apiKeys.dart';
 import 'package:news_app/core/constants/imageKeys.dart';
 import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
-import 'package:news_app/utils/text.dart';
-import 'package:news_app/views/bookmark/bookmark_view.dart';
 import 'package:news_app/views/home/components/bottomLoading.dart';
 import 'package:news_app/views/home/components/first_news_card.dart';
 import 'package:news_app/views/home/components/first_news_card_skeleton.dart';
@@ -54,26 +52,26 @@ class _HomeViewState extends State<HomeView> {
                 scrollController.position.maxScrollExtent &&
             _allFunction.newsList.isNotEmpty) {
           print("i want more");
-          Future.delayed(
-            const Duration(seconds: 0),
-            () => initGetMore(
-              tabsList[selectedIndex],
-            ),
-          );
-          setState(() {});
-          print("i have more");
+
+          if (_allFunction.isLoading == false) {
+            Future.delayed(
+              const Duration(milliseconds: 200),
+              () => initGetMore(
+                tabsList[selectedIndex],
+              ),
+            );
+          }
         }
       },
     );
     if (_allFunction.newsList.isEmpty) {
       Future.delayed(
-        const Duration(milliseconds: 500),
+        const Duration(seconds: 2),
         () => init(
           tabsList[selectedIndex],
         ),
       );
     }
-
     super.initState();
   }
 
@@ -83,8 +81,13 @@ class _HomeViewState extends State<HomeView> {
   }
 
   initGetMore(q) async {
-    _allFunction.getMoreNews(tabsList[selectedIndex]);
+    await _allFunction.getMoreNews(tabsList[selectedIndex]);
     setState(() {});
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        print("settin state now");
+      });
+    });
   }
 
   @override
@@ -97,18 +100,8 @@ class _HomeViewState extends State<HomeView> {
               child: CustomAppBar(
                 enableArrowBack: false,
                 isDisabled: false,
-                icon: Icons.bookmark,
                 title: title,
-                onTap: () {
-                  print(_allFunction.bookmarkList);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: ((context) => BookmarkView(
-                          bookmarkList: _allFunction.bookmarkList)),
-                    ),
-                  );
-                },
+                onTap: () {},
               ),
             ),
             Expanded(
@@ -123,6 +116,8 @@ class _HomeViewState extends State<HomeView> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => NewsView(
+                                link: _allFunction.newsList[randomNumber]
+                                    [ApiKeys.link],
                                 handle: _allFunction.newsList[randomNumber]
                                     [ApiKeys.handle],
                                 body: _allFunction.newsList[randomNumber]
@@ -185,6 +180,7 @@ class _HomeViewState extends State<HomeView> {
                               tabsList.length,
                               (index) => GestureDetector(
                                 onTap: () {
+                                  // print(_allFunction.bookmarkList.length);
                                   if (_allFunction.newsList.isNotEmpty) {
                                     prevSelectedIndex = selectedIndex;
                                     selectedIndex = index;
@@ -222,77 +218,39 @@ class _HomeViewState extends State<HomeView> {
                             onTap: () {
                               if (_allFunction.newsList.isNotEmpty) {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => NewsView(
-                                              handle:
-                                                  _allFunction.newsList[index]
-                                                      [ApiKeys.handle],
-                                              body: _allFunction.newsList[index]
-                                                  [ApiKeys.body],
-                                              time: timeago.format(
-                                                  DateTime.parse(_allFunction
-                                                          .newsList[index]
-                                                      [ApiKeys.time])),
-                                              rights:
-                                                  _allFunction.newsList[index]
-                                                      [ApiKeys.rights],
-                                              topic:
-                                                  _allFunction.newsList[index]
-                                                      [ApiKeys.topic],
-                                              title:
-                                                  _allFunction.newsList[index]
-                                                      [ApiKeys.title],
-                                              image: _allFunction
-                                                              .newsList[index]
-                                                          [ApiKeys.image] ==
-                                                      ApiKeys.emptyString
-                                                  ? ImageKeys.noImage
-                                                  : _allFunction.newsList[index]
-                                                          [ApiKeys.image] ??
-                                                      ImageKeys.noImage,
-                                            )));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NewsView(
+                                      link: _allFunction.newsList[index]
+                                          [ApiKeys.link],
+                                      handle: _allFunction.newsList[index]
+                                          [ApiKeys.handle],
+                                      body: _allFunction.newsList[index]
+                                          [ApiKeys.body],
+                                      time: timeago.format(DateTime.parse(
+                                          _allFunction.newsList[index]
+                                              [ApiKeys.time])),
+                                      rights: _allFunction.newsList[index]
+                                          [ApiKeys.rights],
+                                      topic: _allFunction.newsList[index]
+                                          [ApiKeys.topic],
+                                      title: _allFunction.newsList[index]
+                                          [ApiKeys.title],
+                                      image: _allFunction.newsList[index]
+                                                  [ApiKeys.image] ==
+                                              ApiKeys.emptyString
+                                          ? ImageKeys.noImage
+                                          : _allFunction.newsList[index]
+                                                  [ApiKeys.image] ??
+                                              ImageKeys.noImage,
+                                    ),
+                                  ),
+                                );
                               }
                             },
                             child: _allFunction.newsList.isEmpty
                                 ? const HeadlineSkeletonCard()
                                 : HeadlineCard(
-                                    onPressed: () {
-                                      final snack = SnackBar(
-                                        backgroundColor: kSecondaryColor,
-                                        elevation: 5,
-                                        duration: const Duration(seconds: 1),
-                                        content: AppText.headingMeduim(
-                                            bookMarkedMessage),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snack);
-                                      _allFunction.addBookmark({
-                                        ApiKeys.title: _allFunction
-                                            .newsList[index][ApiKeys.title],
-                                        ApiKeys.topic: _allFunction
-                                            .newsList[index][ApiKeys.topic],
-                                        ApiKeys.image:
-                                            _allFunction.newsList[index]
-                                                        [ApiKeys.image] ==
-                                                    ApiKeys.emptyString
-                                                ? ImageKeys.noImage
-                                                : _allFunction.newsList[index]
-                                                        [ApiKeys.image] ??
-                                                    ImageKeys.noImage,
-                                        ApiKeys.time: timeago.format(
-                                            DateTime.parse(
-                                                _allFunction.newsList[index]
-                                                    [ApiKeys.time])),
-                                        ApiKeys.rights: _allFunction
-                                            .newsList[index][ApiKeys.rights],
-                                        ApiKeys.body: _allFunction
-                                            .newsList[index][ApiKeys.body],
-                                        ApiKeys.handle: _allFunction
-                                            .newsList[index][ApiKeys.handle]
-                                      });
-                                      // print(_allFunction.newsList[1]["rights"]);
-                                    },
                                     handle: _allFunction.newsList[index]
                                             [ApiKeys.handle] ??=
                                         ApiKeys.emptyString,

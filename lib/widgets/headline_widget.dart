@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/utils/all_functions.dart';
 import 'package:news_app/utils/color.dart';
 import 'package:news_app/utils/text.dart';
 
 class HeadlineCard extends StatelessWidget {
-  HeadlineCard({
+  const HeadlineCard({
     Key? key,
     required this.title,
     required this.topic,
@@ -14,7 +13,6 @@ class HeadlineCard extends StatelessWidget {
     required this.rights,
     required this.body,
     required this.handle,
-    this.onPressed,
   }) : super(key: key);
 
   final String title;
@@ -24,7 +22,6 @@ class HeadlineCard extends StatelessWidget {
   final String rights;
   final String body;
   final String handle;
-  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +59,7 @@ class HeadlineCard extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(right: 10),
-                    width: MediaQuery.of(context).size.width - 185,
+                    width: MediaQuery.of(context).size.width - 140,
                     child: AppText.headingMeduim(
                       title,
                       height: 1.1,
@@ -76,17 +73,8 @@ class HeadlineCard extends StatelessWidget {
                   ),
                 ],
               ),
-              IconButton(
-                onPressed: onPressed,
-                icon: const Icon(Icons.bookmark_add_outlined),
-                color: kSecondaryColor,
-              )
             ],
           ),
-
-          // child: BackdropFilter(
-          //   filter: ImageFilter.blur(sigmaX: 50.0, sigmaY: 50.0),
-          // ),
         ),
         const Divider(
           thickness: 2,

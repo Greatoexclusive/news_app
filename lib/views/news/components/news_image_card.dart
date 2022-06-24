@@ -10,18 +10,29 @@ class NewsImageCard extends StatelessWidget {
     required this.topic,
     required this.image,
     required this.time,
+    required this.viewCount,
+    required this.likeCount,
+    required this.bookmarked,
+    this.onPressedBack,
+    this.onPressedBookmark,
   }) : super(key: key);
 
   final String title;
   final String topic;
   final String image;
   final String time;
+  final int viewCount;
+  final bool bookmarked;
+
+  final int likeCount;
+  final Function()? onPressedBack;
+  final Function()? onPressedBookmark;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           // padding: EdgeInsets.symmetric(vertical: 10),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * (2 / 3),
@@ -57,29 +68,35 @@ class NewsImageCard extends StatelessWidget {
           ),
         )),
         Positioned(
-            top: 30,
+            top: 10,
             right: 30,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios_new,
-                    color: Colors.white,
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: onPressedBack,
+                    )),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 160,
+                ),
+                IconButton(
+                  onPressed: onPressedBookmark,
+                  icon: Icon(
+                    bookmarked ? Icons.favorite : Icons.favorite_outline,
+                    color: bookmarked ? kSecondaryColor : Colors.white,
+                    size: 30,
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 140,
-                ),
-                const Icon(
-                  Icons.bookmark_add_outlined,
-                  color: Colors.white,
-                ),
                 const SizedBox(
-                  width: 20,
+                  width: 5,
                 ),
                 const Icon(
                   Icons.share,
@@ -139,18 +156,17 @@ class NewsImageCard extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  AppText.captionMedium("2,500"),
+                  AppText.captionMedium("$viewCount"),
                   const SizedBox(
                     width: 15,
                   ),
-                  const Icon(
-                    Icons.thumb_up_outlined,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  AppText.captionMedium("500"),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.thumb_up_outlined,
+                        color: Colors.grey,
+                      )),
+                  AppText.captionMedium("$likeCount"),
                 ],
               ),
             ],

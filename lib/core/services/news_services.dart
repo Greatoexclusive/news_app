@@ -28,7 +28,7 @@ class NewsService {
 
       final data = jsonDecode(response.body)["articles"];
       totalPages = jsonDecode(response.body)["total_pages"];
-      print(totalPages);
+      // print(totalPages);
       // print(data);
       final List<Map<String, dynamic>> newsList =
           List<Map<String, dynamic>>.from(

@@ -14,7 +14,7 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchState extends State<SearchBar> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     _controller.text = widget.text!;

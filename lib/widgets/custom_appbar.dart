@@ -5,7 +5,7 @@ class CustomAppBar extends StatelessWidget {
   CustomAppBar(
       {Key? key,
       required this.title,
-      this.icon,
+          this.icon,
       required this.onTap,
       required this.isDisabled,
       required this.enableArrowBack})
@@ -24,7 +24,7 @@ class CustomAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          enableArrowBack == true
+          enableArrowBack!
               ? GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -32,7 +32,8 @@ class CustomAppBar extends StatelessWidget {
                   child: const Icon(
                     Icons.arrow_back_ios_new,
                     color: Colors.white,
-                  ))
+                  ),
+                )
               : const Center(),
           const SizedBox(
             width: 20,

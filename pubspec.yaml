@@ -39,6 +39,7 @@ dependencies:
   timeago: ^3.2.2
   shared_preferences: ^2.0.15
   intl: ^0.17.0
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:

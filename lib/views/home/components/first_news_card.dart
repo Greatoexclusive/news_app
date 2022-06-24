@@ -24,7 +24,7 @@ class FirstNewsCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             // padding: EdgeInsets.symmetric(vertical: 10),
             width: double.infinity,
             height: 400,
