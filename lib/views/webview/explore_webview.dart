@@ -104,14 +104,8 @@ class _ExploreWebviewState extends State<ExploreWebview> {
                           color: kPrimaryColor,
                         ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width: MediaQuery.of(context).size.width,
-                        child: Image.asset(
-                          isLoading
-                              ? "assets/processing.png"
-                              : "assets/noconnection.png",
-                        ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15),
@@ -126,7 +120,8 @@ class _ExploreWebviewState extends State<ExploreWebview> {
                       InkWell(
                         onTap: () async {
                           isLoading = true;
-                          Future.delayed(Duration(milliseconds: 500), () async {
+                          Future.delayed(const Duration(milliseconds: 500),
+                              () async {
                             await controller.reload();
                             onError == false;
                           });
