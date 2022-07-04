@@ -71,6 +71,8 @@ class _NewsViewState extends State<NewsView> {
                     }
 
                     bookmarkedItem[ApiKeys.title] = widget.title;
+                    bookmarkedItem[ApiKeys.link] = widget.link;
+
                     bookmarkedItem[ApiKeys.body] = widget.body;
                     bookmarkedItem[ApiKeys.handle] = widget.handle;
                     bookmarkedItem[ApiKeys.image] = widget.image;

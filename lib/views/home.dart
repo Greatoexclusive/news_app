@@ -38,7 +38,7 @@ class _HomeViewState extends State<Home> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: kPrimaryColor,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               backgroundColor: kPrimaryColor,

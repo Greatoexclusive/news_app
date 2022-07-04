@@ -56,20 +56,6 @@ class FirstNewsCard extends StatelessWidget {
             ),
           )),
           Positioned(
-            top: 20,
-            right: 20,
-            child: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                  color: kSecondaryColor.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(10)),
-              child: const Icon(
-                Icons.bookmark,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Positioned(
             bottom: 30,
             left: 15,
             child: Column(

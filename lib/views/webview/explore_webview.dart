@@ -127,7 +127,6 @@ class _ExploreWebviewState extends State<ExploreWebview> {
                           });
                           setState(() {});
 
-                          setState(() {});
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
